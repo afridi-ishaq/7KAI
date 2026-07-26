@@ -22,7 +22,7 @@ export default function Hero() {
                 width: "fit-content",
               }}
             >
-              <div className="px-8 py-2 bg-gray-800 rounded-3xl min-w-[380px] flex items-center justify-center gap-3">
+              <div className="px-4 py-2 bg-gray-800 rounded-3xl min-w-[380px] flex items-center justify-center gap-3">
 
                 <div className="relative">
                   <motion.div
