@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import {
   Bot,
   Globe,
@@ -46,7 +49,7 @@ export default function ServicesSection() {
   return (
     <section
       id="services"
-      className="py-18 bg-white"
+      className="py-24 bg-white"
     >
       <div className="max-w-7xl mx-auto px-6">
         <SectionHeading
@@ -55,20 +58,36 @@ export default function ServicesSection() {
           description="Helping businesses scale through software engineering, automation, and digital transformation."
         />
 
-        <div className="mt-20 px-10 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service) => {
+        <div className="mt-20 px-0 lg:px-10 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {services.map((service, index) => {
             const Icon = service.icon;
 
             return (
-              <div
+              <motion.div
                 key={service.title}
+                initial={{
+                  opacity: 0,
+                  y: 60,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                viewport={{
+                  once: true,
+                  amount: 0.15,
+                }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.08,
+                }}
                 className="
                   group
                   relative
                   rounded-3xl
                 "
               >
-                {/* Glow Layer */}
+                {/* Glow */}
                 <div
                   className="
                     absolute
@@ -144,24 +163,21 @@ export default function ServicesSection() {
                     {service.desc}
                   </p>
 
-                  {/* Hover Arrow */}
+                  {/* CTA */}
                   <div
                     className="
                       mt-6
                       text-[#0E6F9B]
                       font-medium
-                      opacity-0
-                      translate-y-2
                       transition-all
                       duration-300
-                      group-hover:opacity-100
-                      group-hover:translate-y-0
+                      group-hover:translate-x-1
                     "
                   >
                     Learn More →
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
