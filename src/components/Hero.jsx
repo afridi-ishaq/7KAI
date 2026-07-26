@@ -11,7 +11,7 @@ export default function Hero() {
         <div className="max-w-[1000px] mx-auto pt-24 lg:pt-32 flex flex-col items-center text-center">
 
           {/* Eyebrow Badge */}
-          <div className="flex md:px-10 pt-20 justify-center">
+          <div className="flex pt-20 justify-center">
             <ElectricBorder
               color="#7cf2fb"
               speed={1.1}
@@ -22,13 +22,14 @@ export default function Hero() {
                 width: "fit-content",
               }}
             >
-              <div className="px-4 py-2 bg-gray-800 rounded-3xl min-w-[380px] flex items-center justify-center gap-3">
-
+              
+              <div className="px-4 py-2 rounded-3xl min-w-[380px] flex items-center justify-center gap-2">
+                
                 <div className="relative">
                   <motion.div
                     className="absolute inset-0 rounded-full bg-green-400"
                     animate={{
-                      scale: [1, 2.5],
+                      scale: [ 1, 1.6],
                       opacity: [0.6, 0],
                     }}
                     transition={{
@@ -38,7 +39,7 @@ export default function Hero() {
                     }}
                   />
 
-                  <div className="relative w-3 h-3 rounded-full bg-green-400" />
+                  <div className="relative w-2 h-2 rounded-full bg-green-400" />
                 </div>
 
                 <p className="text-sm md:text-base tracking-[0.35em] uppercase text-white">

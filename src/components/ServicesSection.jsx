@@ -46,7 +46,7 @@ export default function ServicesSection() {
   return (
     <section
       id="services"
-      className="py-32 bg-white"
+      className="py-18 bg-white"
     >
       <div className="max-w-7xl mx-auto px-6">
         <SectionHeading

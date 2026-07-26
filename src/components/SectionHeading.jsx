@@ -6,6 +6,7 @@ export default function SectionHeading({
   return (
     <div className="text-center max-w-3xl mx-auto">
       {badge && (
+
         <div className="flex justify-center">
           <div className="relative p-[1px] rounded-full overflow-hidden group">
 
@@ -36,6 +37,7 @@ export default function SectionHeading({
           backdrop-blur-xl
         "
             >
+              
               {badge}
             </div>
           </div>

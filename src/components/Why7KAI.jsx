@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function Why7KAI() {
   return (
-    <section className="relative bg-[#F8FAFC] text-[#0F172A] py-32 lg:py-32 lg:px-15 text-center overflow-hidden">
+    <section className="relative bg-[#F8FAFC] text-[#0F172A] py-18 lg:py-18 lg:px-15 text-center overflow-hidden">
       {/* Background Accent */}
       <div
         className="
