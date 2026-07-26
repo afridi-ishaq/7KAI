@@ -11,15 +11,15 @@ export default function VertexEarth() {
     const container = containerRef.current;
 
     const scene = new THREE.Scene();
-
+//size changing here
     const camera = new THREE.PerspectiveCamera(
-      45,
+      39,
       container.clientWidth / container.clientHeight,
-      0.1,
-      1000
+      1,
+      800
     );
-
-    camera.position.set(0, 0, 3.5);
+  //camera
+    camera.position.set(0, 0.2, 3.5);
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -66,11 +66,11 @@ export default function VertexEarth() {
 
     scene.add(globeGroup);
 
-
+//frame color and thickness
     const globe = new THREE.Mesh(
       new THREE.IcosahedronGeometry(1, 10),
       new THREE.MeshBasicMaterial({
-        color: 0x202020,
+        color: 0x112749,
         wireframe: true,
       })
     );
@@ -484,7 +484,8 @@ window.addEventListener(
     left-0
     w-screen
     h-screen
-    z-0
+    relaive
+    z-10
 
     md:left-0
     lg:left-70
