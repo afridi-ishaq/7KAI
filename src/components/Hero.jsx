@@ -11,7 +11,7 @@ export default function Hero() {
         <div className="max-w-[1000px] mx-auto pt-24 lg:pt-32 flex flex-col items-center text-center">
 
           {/* Eyebrow Badge */}
-          <div className="flex md:px-4 pt-20 justify-center">
+          <div className="flex md:px-10 pt-20 justify-center">
             <ElectricBorder
               color="#7cf2fb"
               speed={1.1}

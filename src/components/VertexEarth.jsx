@@ -13,7 +13,7 @@ export default function VertexEarth() {
     const scene = new THREE.Scene();
 //size changing here
     const camera = new THREE.PerspectiveCamera(
-      39,
+      45,
       container.clientWidth / container.clientHeight,
       1,
       800
@@ -488,7 +488,7 @@ window.addEventListener(
     z-10
 
     md:left-0
-    lg:left-70
+    lg:left-0
   "
 />
   );
