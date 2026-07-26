@@ -55,7 +55,7 @@ export default function ServicesSection() {
           description="Helping businesses scale through software engineering, automation, and digital transformation."
         />
 
-        <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="mt-20 px-10 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service) => {
             const Icon = service.icon;
 
