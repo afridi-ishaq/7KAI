@@ -1,8 +1,10 @@
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import ServicesSection from "@/components/ServicesSection";
+import SolutionsShowcase from "@/components/SolutionsShowcase";
 import TrustedTech from "@/components/TrustedTech";
 import VertexEarth from "@/components/VertexEarth";
+import Why7KAI from "@/components/Why7KAI";
 
 
 export default function Home() {
@@ -26,9 +28,15 @@ export default function Home() {
         <TrustedTech />
       </div>
       <div className="relative z-20">
+        <SolutionsShowcase />
+      </div>
+      <div className="relative z-20">
+        <Why7KAI />
+      </div>
+      <div className="relative z-20">
         <ServicesSection />
       </div>
-      
+
 
     </main>
   );

@@ -72,7 +72,8 @@ export default function TrustedTech() {
             md:grid-cols-3
             lg:grid-cols-6
             gap-6
-            px-20
+            lg:px-20
+            md:px-10
           "
         >
           {tech.map((item, index) => (
