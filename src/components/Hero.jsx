@@ -133,7 +133,7 @@ export default function Hero() {
                 hover:-translate-y-1
               "
             >
-              Start a Project
+              <a href="#contact">Start a Project</a>
 
               <ArrowRight
                 size={18}
@@ -157,7 +157,7 @@ export default function Hero() {
                 hover:border-white/20
               "
             >
-              View Our Work
+             <a href="#work"> View Our Work</a>
             </button>
           </motion.div>
 
