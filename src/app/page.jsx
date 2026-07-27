@@ -20,7 +20,7 @@ export default function Home() {
       <VertexEarth />
 
       <div 
-      className="z-10"
+      className="z-20 pt-5"
       style={{ width: '100%' ,height: '400px', position: 'fixed' , }}>
   <Antigravity
     count={4000}
