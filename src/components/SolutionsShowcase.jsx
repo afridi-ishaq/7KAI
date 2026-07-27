@@ -59,7 +59,9 @@ export default function SolutionsShowcase() {
   const [active, setActive] = useState(0);
 
   return (
-    <section className="bg-[#F8FAFC] py-32">
+    <section
+    id="solutions"
+    className="bg-[#F8FAFC] py-32">
       
       <div className="max-w-7xl mx-auto px-6 text-center lg:px-10">
         {/* Section Header */}
