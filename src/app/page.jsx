@@ -8,6 +8,7 @@ import Why7KAI from "@/components/Why7KAI";
 import FeaturedProjects from "@/components/FeaturedProjects";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
+import Antigravity from "@/components/Antigravity";
 
 
 export default function Home() {
@@ -15,8 +16,30 @@ export default function Home() {
     <main className="relative min-h-screen bg-black">
 
       {/* Globe */}
+
       <VertexEarth />
 
+      <div 
+      className="z-30"
+      style={{ width: '100%' ,height: '400px', position: 'fixed' , }}>
+  <Antigravity
+    count={4000}
+    magnetRadius={15}
+    ringRadius={15}
+    waveSpeed={0.8}
+    waveAmplitude={12}
+    particleSize={0.4}
+    lerpSpeed={0.002}
+    color="#cbbafd"
+    autoAnimate
+    particleVariance={0}
+    rotationSpeed={0.5}
+    depthFactor={5}
+    pulseSpeed={6}
+    particleShape="sphere"
+    fieldStrength={0}
+/>
+</div>
       {/* Navbar */}
       <div className="relative z-30">
         <Navbar />
@@ -45,7 +68,7 @@ export default function Home() {
       <div className="relative z-20">
         <CTASection />
       </div>
-      <div className="relative z-10">
+      <div className="relative z-20 bg-none">
         <Footer />
       </div>
       
