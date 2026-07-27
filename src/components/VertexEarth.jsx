@@ -11,14 +11,14 @@ export default function VertexEarth() {
     const container = containerRef.current;
 
     const scene = new THREE.Scene();
-//size changing here
+
     const camera = new THREE.PerspectiveCamera(
       40,
       container.clientWidth / container.clientHeight,
       1,
       800
     );
-  //camera
+
     camera.position.set(0, 0.2, 3.5);
 
     const renderer = new THREE.WebGLRenderer({
@@ -31,7 +31,9 @@ export default function VertexEarth() {
       container.clientHeight
     );
 
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(
+      Math.min(window.devicePixelRatio, 2)
+    );
 
     container.appendChild(renderer.domElement);
 
@@ -61,12 +63,9 @@ export default function VertexEarth() {
       "/earth/02_earthspec1k.jpg"
     );
 
-
     const globeGroup = new THREE.Group();
-
     scene.add(globeGroup);
 
-//frame color and thickness
     const globe = new THREE.Mesh(
       new THREE.IcosahedronGeometry(1, 10),
       new THREE.MeshBasicMaterial({
@@ -77,13 +76,11 @@ export default function VertexEarth() {
 
     globeGroup.add(globe);
 
-
     const pointsGeo =
       new THREE.IcosahedronGeometry(
         1,
         120
       );
-
 
     const vertexShader = `
       uniform float size;
@@ -102,18 +99,15 @@ export default function VertexEarth() {
           modelViewMatrix *
           vec4(position,1.0);
 
-
         float elv =
           texture2D(
             elevTexture,
             vUv
           ).r;
 
-
         vec3 vNormal =
           normalMatrix *
           normal;
-
 
         vVisible =
           step(
@@ -124,10 +118,8 @@ export default function VertexEarth() {
             )
           );
 
-
         mvPosition.z +=
           0.35 * elv;
-
 
         float dist =
           distance(
@@ -135,22 +127,18 @@ export default function VertexEarth() {
             vUv
           );
 
-
         float thresh = 0.04;
 
         float zDisp = 0.0;
-
 
         if(dist < thresh){
           zDisp =
             (thresh - dist) * 10.0;
         }
 
-
         vDist = dist;
 
         mvPosition.z += zDisp;
-
 
         gl_PointSize = size;
 
@@ -159,7 +147,6 @@ export default function VertexEarth() {
           mvPosition;
       }
     `;
-
 
     const fragmentShader = `
       uniform sampler2D colorTexture;
@@ -170,13 +157,11 @@ export default function VertexEarth() {
       varying float vVisible;
       varying float vDist;
 
-
       void main(){
 
         if(
           floor(vVisible + 0.1)==0.0
         ) discard;
-
 
         float alpha =
           1.0 -
@@ -185,13 +170,11 @@ export default function VertexEarth() {
             vUv
           ).r;
 
-
         vec3 color =
           texture2D(
             colorTexture,
             vUv
           ).rgb;
-
 
         vec3 other =
           texture2D(
@@ -199,9 +182,7 @@ export default function VertexEarth() {
             vUv
           ).rgb;
 
-
         float thresh = 0.04;
-
 
         if(vDist < thresh){
 
@@ -214,7 +195,6 @@ export default function VertexEarth() {
 
         }
 
-
         gl_FragColor =
           vec4(
             color,
@@ -224,44 +204,39 @@ export default function VertexEarth() {
       }
     `;
 
-
     const uniforms = {
-
-      size:{
-        value:4.0
+      size: {
+        value: 4.0,
       },
 
-      colorTexture:{
-        value:colorMap
+      colorTexture: {
+        value: colorMap,
       },
 
-      otherTexture:{
-        value:otherMap
+      otherTexture: {
+        value: otherMap,
       },
 
-      elevTexture:{
-        value:elevMap
+      elevTexture: {
+        value: elevMap,
       },
 
-      alphaTexture:{
-        value:alphaMap
+      alphaTexture: {
+        value: alphaMap,
       },
 
-      mouseUV:{
-        value:new THREE.Vector2(0,0)
-      }
-
+      mouseUV: {
+        value: new THREE.Vector2(0, 0),
+      },
     };
-
 
     const pointsMat =
       new THREE.ShaderMaterial({
         uniforms,
         vertexShader,
         fragmentShader,
-        transparent:true
+        transparent: true,
       });
-
 
     const points =
       new THREE.Points(
@@ -269,9 +244,7 @@ export default function VertexEarth() {
         pointsMat
       );
 
-
     globeGroup.add(points);
-
 
     const hemiLight =
       new THREE.HemisphereLight(
@@ -282,216 +255,205 @@ export default function VertexEarth() {
 
     scene.add(hemiLight);
 
-
     const stars =
       getStarfield({
-        numStars:4500,
-        sprite:starSprite
+        numStars: 2500,
+        sprite: starSprite,
       });
-
 
     scene.add(stars);
 
+    // =========================
+    // SCROLL + MOUSE VARIABLES
+    // =========================
 
-
-    // Scroll rotation
     let lastScrollY = window.scrollY;
+    let scrollSpeed = 0;
 
-let scrollSpeed = 0;
-let targetScrollRotation = 0;
+    let mouseTiltX = 0;
+    let currentTiltX = 0;
 
+    // =========================
+    // SCROLL
+    // =========================
 
-window.addEventListener(
-  "scroll",
-  () => {
+    const handleScroll = () => {
+      const currentScrollY =
+        window.scrollY;
 
-    targetScrollRotation =
-    window.scrollY * 0.005;
-    
-    const currentScrollY =
-      window.scrollY;
+      const difference =
+        currentScrollY -
+        lastScrollY;
 
+      scrollSpeed =
+        difference * 0.0005;
 
-    const difference =
-      currentScrollY - lastScrollY;
+      lastScrollY =
+        currentScrollY;
+    };
 
+    window.addEventListener(
+      "scroll",
+      handleScroll
+    );
 
-    scrollSpeed =
-      difference * 0.0005;
+    // =========================
+    // MOUSE
+    // =========================
 
+    const handleMouseMove = (
+      evt
+    ) => {
+      const rect =
+        renderer.domElement.getBoundingClientRect();
 
-    lastScrollY =
-      currentScrollY;
+      pointerPos.x =
+        ((evt.clientX -
+          rect.left) /
+          rect.width) *
+          2 -
+        1;
 
-  }
-);
+      pointerPos.y =
+        -(
+          ((evt.clientY -
+            rect.top) /
+            rect.height) *
+            2 -
+          1
+        );
 
+      mouseTiltX =
+        (evt.clientY /
+          window.innerHeight -
+          0.5) *
+        0.25;
+    };
 
+    window.addEventListener(
+      "mousemove",
+      handleMouseMove
+    );
 
-    function handleRaycast(){
-
+    function handleRaycast() {
       raycaster.setFromCamera(
         pointerPos,
         camera
       );
-
 
       const intersects =
         raycaster.intersectObject(
           globe
         );
 
-
-      if(intersects.length > 0){
-
+      if (
+        intersects.length > 0
+      ) {
         globeUV.copy(
           intersects[0].uv
         );
-
       }
-
 
       uniforms.mouseUV.value.copy(
         globeUV
       );
-
     }
 
-
-
-    window.addEventListener(
-      "mousemove",
-      (evt)=>{
-
-        const rect =
-          renderer.domElement.getBoundingClientRect();
-
-
-        pointerPos.x =
-          ((evt.clientX - rect.left) /
-          rect.width) * 2 - 1;
-
-
-        pointerPos.y =
-          -(
-            ((evt.clientY - rect.top) /
-            rect.height) * 2 - 1
-          );
-
-      }
-    );
-
-
-
-    const handleResize = ()=>{
-
+    const handleResize = () => {
       camera.aspect =
         container.clientWidth /
         container.clientHeight;
 
-
       camera.updateProjectionMatrix();
-
 
       renderer.setSize(
         container.clientWidth,
         container.clientHeight
       );
-
     };
-
 
     window.addEventListener(
       "resize",
       handleResize
     );
 
+    function animate() {
+      requestAnimationFrame(
+        animate
+      );
 
+      // Auto rotation
+      globeGroup.rotation.y +=
+        0.0007;
 
-    function animate(){
+      // Scroll momentum
+      globeGroup.rotation.y +=
+        scrollSpeed;
 
-  requestAnimationFrame(
-    animate
-  );
+      scrollSpeed *= 0.95;
 
+      // Mouse tilt
+      currentTiltX +=
+        (mouseTiltX -
+          currentTiltX) *
+        0.05;
 
-  // normal rotation
-  globeGroup.rotation.y +=
-    0.0007;
+      globeGroup.rotation.x =
+        currentTiltX;
 
+      handleRaycast();
 
-  // scroll rotation
-  globeGroup.rotation.y +=
-    scrollSpeed;
-
-
-  // slowly stop scroll movement
-  scrollSpeed *= 0.95;
-
-
-  handleRaycast();
-
-
-  renderer.render(
-    scene,
-    camera
-  );
-
-}
+      renderer.render(
+        scene,
+        camera
+      );
+    }
 
     animate();
 
-
-
-    return ()=>{
-
+    return () => {
       window.removeEventListener(
         "resize",
         handleResize
       );
 
+      window.removeEventListener(
+        "mousemove",
+        handleMouseMove
+      );
+
+      window.removeEventListener(
+        "scroll",
+        handleScroll
+      );
 
       renderer.dispose();
 
-
-      if(
+      if (
         container &&
         renderer.domElement &&
         container.contains(
           renderer.domElement
         )
-      ){
-
+      ) {
         container.removeChild(
           renderer.domElement
         );
-
       }
-
     };
-
-
   }, []);
 
-
-
   return (
-    
-    
     <div
-  ref={containerRef}
-  className="
-    fixed
-    top-0
-    left-0
-    w-screen
-    h-screen
-    relaive
-    z-10
-
-    md:left-0
-    lg:left-0
-  "
-/>
+      ref={containerRef}
+      className="
+        fixed
+        top-0
+        left-0
+        w-screen
+        h-screen
+        z-10
+      "
+    />
   );
 }
