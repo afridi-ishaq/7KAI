@@ -41,7 +41,7 @@ export default function Home() {
 />
 </div>
       {/* Navbar */}
-      <div className="relative z-30">
+      <div className="relative z-40">
         <Navbar />
       </div>
 
